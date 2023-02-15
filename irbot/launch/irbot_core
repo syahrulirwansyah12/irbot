@@ -1,0 +1,4 @@
+<launch>
+  <include file="$(find irbot)/launch/irbot_serial_node.launch" />
+  <include file="$(find rplidar_ros)/launch/rplidar.launch" />
+</launch>
