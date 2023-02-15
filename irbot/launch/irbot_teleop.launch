@@ -1,0 +1,8 @@
+<launch>
+    <arg name="key_timeout" default="0.3"/>
+    <arg name="repeat_rate" default="20.0"/>
+    <node pkg="first_project" type="fp_teleop_key.py" name="irbot_teleop_key"  output="screen">
+        <param name="key_timeout" value="$(arg key_timeout)" />
+        <param name="repeat_rate" value="$(arg repeat_rate)" />
+    </node>
+</launch>
