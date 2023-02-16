@@ -1,0 +1,4 @@
+<launch>
+  <include file="$(find rplidar_ros)/launch/rplidar.launch" />
+  <node pkg="topic_tools" type="transform" name="irbot_laser_scan" args="/scan /irbot/scan sensor_msgs/LaserScan 'sensor_msgs.msg.LaserScan(header=std_msgs.msg.Header(seq=m.header.seq,stamp=rospy.Time.now(),frame_id=m.header.frame_id),angle_min=m.angle_min,angle_max=m.angle_max,angle_increment=m.angle_increment,time_increment=m.time_increment,scan_time=m.scan_time,range_min=m.range_min,range_max=m.range_max,ranges=m.ranges,intensities=m.intensities)' --import sensor_msgs std_msgs rospy"/>
+</launch>
