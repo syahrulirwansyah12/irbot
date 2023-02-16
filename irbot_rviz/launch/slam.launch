@@ -4,15 +4,23 @@
 
   <param name="robot_description" command="$(find xacro)/xacro $(arg model)" />
 
+  <node pkg="rviz" type="rviz" name="rviz" args="-d $(arg rvizconfig)" required="true" />
+
+  <node pkg="topic_tools" type="transform" name="irbot_laser_scan" args="/scan /irbot/scan sensor_msgs/LaserScan 'sensor_msgs.msg.LaserScan(header=std_msgs.msg.Header(seq=m.header.seq,stamp=rospy.Time.now(),frame_id=m.header.frame_id),angle_min=m.angle_min,angle_max=m.angle_max,angle_increment=m.angle_increment,time_increment=m.time_increment,scan_time=m.scan_time,range_min=m.range_min,range_max=m.range_max,ranges=m.ranges,intensities=m.intensities)' --import sensor_msgs std_msgs rospy"/>
+
+  <node pkg="slam_karto" type="slam_karto" name="slam_karto" output="screen">
+    <rosparam command="load" file="$(find irbot_rviz)/launch/config/karto_mapper_params.yaml"/>
+    <remap from="/scan" to="/irbot/scan"/>
+  </node>
+
   <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher">
     <param name="publish_frequency" type="double" value="50.0"/>
     <param name="tf_prefix" value=""/>
   </node>
 
-  <node pkg="rviz" type="rviz" name="rviz" args="-d $(arg rvizconfig)" required="true" />
+  <node pkg="irbot" type="tf_transform_publisher" name="tf_broadcaster"/>
 
-  <node pkg="slam_karto" type="slam_karto" name="slam_karto" output="screen">
-    <rosparam command="load" file="$(find irbot_rviz)/launch/config/karto_mapper_params.yaml"/>
-    <remap from="/scan" to="/irbot/scan">
-  </node>
+  <!--
+  <node pkg="tf" type="static_transform_publisher" name="laser_broadcaster" args="0 0 0.011 0 0 0 base_link laser 200"/>
+  -->
 </launch>

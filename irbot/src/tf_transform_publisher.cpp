@@ -26,26 +26,12 @@ int main (int argc, char **argv) {
 	//odomTransform: is the name of the callback function that will be executed each time a message is received.
     ros::Subscriber odom_sub = nh.subscribe("odom", 1000, odomTransform);
 
-    
     //Broadcasting a transformation between "base_footprint" frame and "base_link" frame
     tf::TransformBroadcaster base_link_br;
     base_link_br.sendTransform(
         tf::StampedTransform(
             tf::Transform(tf::Quaternion(0,0,0,0),tf::Vector3(0.0,0.0,0.0)),
             ros::Time::now(),"base_footprint","base_link"));
-
-    //Broadcasting a transformation between "base_footprint" frame and "base_scan" frame
-    tf::TransformBroadcaster base_scan_br;
-    base_scan_br.sendTransform(
-        tf::StampedTransform(
-            tf::Transform(tf::Quaternion(0,0,0,0),tf::Vector3(0.0,0.0,13.0)),
-            ros::Time::now(),"base_footprint","base_scan"));
-
-    tf::TransformBroadcaster laser_br;
-    laser_br.sendTransform(
-        tf::StampedTransform(
-            tf::Transform(tf::Quaternion(0,0,0,0),tf::Vector3(0.0,0.0,0.0)),
-            ros::Time::now(),"base_scan","laser"));
 
     // Enter a loop, pumping callbacks
     ros::spin();
