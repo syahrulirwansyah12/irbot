@@ -19,9 +19,9 @@
 
   <link name="base_link">
     <visual>
-      <origin xyz="0 -0.0097 0" rpy="-1.5708 0 0"/>
+      <origin xyz="0 -0.0097 0" rpy="1.5708 0 0"/>
       <geometry>
-        <mesh filename="package://irbot_rviz/urdf/stl/assembly3.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://irbot_rviz/urdf/stl/main_body.stl" scale="0.01 0.01 0.01"/>
       </geometry>
       <material name="grey"/>
     </visual>
@@ -37,20 +37,20 @@
   <joint name="scan_joint" type="fixed">
     <parent link="base_link"/>
     <child link="laser"/>
-    <origin xyz="0.0 0 0.011" rpy="0 0 0"/>
+    <origin xyz="0.0 0 0.0" rpy="0 0 0"/>
   </joint>
 
   <link name="laser">
     <visual>
-      <origin xyz="0.0035 0.0035 -0.0045" rpy="1.5708 0 -1.5708"/>
+      <origin xyz="-0.235 0.0 0.0" rpy="0 0 3.1416"/>
       <geometry>
-        <mesh filename="package://irbot_rviz/urdf/stl/rplidar_main.stl" scale="0.0001 0.0001 0.0001"/>
+        <mesh filename="package://irbot_rviz/urdf/stl/RPLidar.stl" scale="0.01 0.01 0.01"/>
       </geometry>
       <material name="dark"/>
     </visual>
 
     <collision>
-      <origin xyz="0.015 0 -0.0065" rpy="0 0 0"/>
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
       <geometry>
         <cylinder length="0.0315" radius="0.055"/>
       </geometry>
