@@ -13,7 +13,8 @@ sudo dpkg-reconfigure openssh-server
 
 echo "[Install X2Go Server]"
 sudo apt-get install software-properties-common -y
-sudo add-apt-repository ppa:x2go/stable -y
+sudo add-apt-repository ppa:x2go/stable
+sudo apt-get update && sudo apt-get upgrade -y
 sudo apt-get install x2goserver s2goserver-xsession
 sudo apt-get install x2gomatebindings
 
