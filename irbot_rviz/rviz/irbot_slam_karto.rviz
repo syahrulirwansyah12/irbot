@@ -98,8 +98,6 @@ Visualization Manager:
           Value: true
         odom:
           Value: true
-        scanmatcher_frame:
-          Value: true
       Marker Scale: 1
       Name: TF
       Show Arrows: true
@@ -112,8 +110,6 @@ Visualization Manager:
               base_link:
                 laser:
                   {}
-          scanmatcher_frame:
-            {}
       Update Interval: 0
       Value: true
     - Alpha: 1
