@@ -1,6 +1,6 @@
 <launch>
   <arg name="model" default="$(find irbot_rviz)/urdf/irbot.urdf.xacro"/>
-  <arg name="rvizconfig" default="$(find irbot_rviz)/rviz/irbot_slam.rviz" />
+  <arg name="rvizconfig" default="$(find irbot_rviz)/rviz/irbot_slam_karto.rviz" />
 
   <param name="robot_description" command="$(find xacro)/xacro $(arg model)" />
 
