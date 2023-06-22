@@ -1,7 +1,14 @@
 <launch>
     <arg name="port" default="/dev/ttyACM0"/>
     <arg name="baud" default="57600"/>
+    <!--
     <node pkg="rosserial_arduino" type="serial_node.py" name="serial_node" output="screen">
+        <param name="port" value="$(arg port)"/>
+        <param name="baud" value="$(arg baud)"/>
+    </node>
+    -->
+
+    <node pkg="irbot" type="serial_arduino.py" name="serial_node" output="screen">
         <param name="port" value="$(arg port)"/>
         <param name="baud" value="$(arg baud)"/>
     </node>
