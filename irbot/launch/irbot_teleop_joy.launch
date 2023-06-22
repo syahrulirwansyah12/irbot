@@ -7,7 +7,7 @@
         <param name="dev_name" value="$(arg joystick_name)"/>
     </node>
 
-    <node pkg="irbot" type="irbot_joy.py" name="irbot_teleop_joy"  output="screen">
+    <node pkg="irbot" type="irbot_teleop_joy.py" name="irbot_teleop_joy"  output="screen">
         <param name="max_speed" value="$(arg max_speed)" />
         <param name="max_turn" value="$(arg max_turn)" />
     </node>

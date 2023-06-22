@@ -33,7 +33,7 @@ if __name__ == '__main__':
             #Subscribe to /odom topic
             rospy.Subscriber("/odom", Odometry, odomCallback)
             
-            print(pos_x, pos_y, theta)
+            rospy.loginfo('Pos_x: %s, Pos_y: %s, Theta: %s', pos_x, pos_y, theta)
             rate.sleep()
 
     except rospy.ROSInterruptException:
