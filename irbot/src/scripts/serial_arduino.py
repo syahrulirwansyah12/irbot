@@ -50,7 +50,7 @@ if __name__ == '__main__':
             line_odom = ser.readline().split(",")
             odom_data_parsed = [x.rstrip() for x in line_odom]
 
-            print(odom_data_parsed)
+            print(line_odom)
             try:
                 pos_x = float(odom_data_parsed[0])
                 pos_y = float(odom_data_parsed[1])
