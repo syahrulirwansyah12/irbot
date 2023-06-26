@@ -10,7 +10,7 @@ import struct
 
 bus = smbus.SMBus(1)
 
-arduino_add = 0x08 
+arduino_add = 0x68 
 
 pos_x = 0.0
 pos_y = 0.0
@@ -24,7 +24,7 @@ rpm_ki = None
 
 def packData(vx, wz):
     data = struct.pack('ff', vx,wz)
-    return list(data)
+    return [ord(byte) for byte in data]
 
 def cmdVelCallback(vel):
     global cmd_vx, cmd_wz
