@@ -24,7 +24,7 @@ rpm_ki = None
 
 def packData(vx, wz):
     data = struct.pack('ff', vx,wz)
-    return list(data)
+    return [ord(byte) for byte in data]
 
 def cmdVelCallback(vel):
     global cmd_vx, cmd_wz
