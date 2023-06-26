@@ -10,7 +10,7 @@ import struct
 
 bus = smbus.SMBus(1)
 
-arduino_add = 0x08 
+arduino_add = 0x68 
 
 pos_x = 0.0
 pos_y = 0.0
