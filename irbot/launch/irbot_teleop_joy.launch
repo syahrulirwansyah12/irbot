@@ -3,12 +3,20 @@
     <arg name="max_turn" default="0.8"/>
     <arg name="joystick_name" default="PS3 Controller"/>
 
+    <arg name="config_filepath" default="$(find irbot)/config/irbot_ps4.yaml"/>
+
     <node pkg="joy" type="joy_node" name="joy_node">
         <param name="dev_name" value="$(arg joystick_name)"/>
     </node>
 
+    <!--
     <node pkg="irbot" type="irbot_teleop_joy.py" name="irbot_teleop_joy"  output="screen">
         <param name="max_speed" value="$(arg max_speed)" />
         <param name="max_turn" value="$(arg max_turn)" />
+    </node>
+    -->
+
+    <node pkg="teleop_twist_joy" type="teleop_node" name="irbot_teleop_joy" output="screen">
+        <rosparam command="load" file="$(arg config_filepath)"/>
     </node>
 </launch>
