@@ -5,6 +5,7 @@ from geometry_msgs.msg import Twist, Pose, Point, Quaternion
 from nav_msgs.msg import Odometry
 import tf
 import serial
+import os
 
 pos_x = 0.0
 pos_y = 0.0
@@ -30,8 +31,11 @@ if __name__ == '__main__':
         #Publish to /odom topic
         pub = rospy.Publisher("/odom",Odometry, queue_size=100)
 
-        serial_port = rospy.get_param("~serial_port","/dev/ttyACM0")
+        #serial_port = rospy.get_param("~serial_port","/dev/ttyACM0")
         baud_rate = rospy.get_param("~baud_rate", 57600)
+
+        device_id = rospy.get_param("~device_id",'usb-1a86-USB2.0-Serial-if00-port0')
+        serial_port = os.popen('sudo bash {}/get_usb.bash {}'.format(os.path.dirname(os.path.abspath(__file__)), device_id)).read().strip()
 
         ser = serial.Serial(serial_port, baud_rate, timeout=None)
 
@@ -41,14 +45,21 @@ if __name__ == '__main__':
             rospy.Subscriber("/cmd_vel", Twist, cmdVelCallback)
 
             #print(cmd_vx, cmd_wz)
-            ser.write(b'ROS:')
-            ser.write(str(cmd_vx).encode())
-            ser.write(b',')
-            ser.write(str(cmd_wz).encode())
-            ser.write(b'\n')
+            #ser.write(b'ROS:')
+            #ser.write(str(cmd_vx).encode())
+            #ser.write(b',')
+            #ser.write(str(cmd_wz).encode())
+            #ser.write(b'\n')
 
-            line_odom = ser.readline().split(",")
-            odom_data_parsed = [x.rstrip() for x in line_odom]
+            try:
+                line_odom = ser.readline().split(",")
+                odom_data_parsed = [x.rstrip() for x in line_odom]
+            except:
+                serial_port = os.popen('sudo bash {}/get_usb.bash {}'.format(os.path.dirname(os.path.abspath(__file__)), device_id)).read().strip()
+                ser = serial.Serial(serial_port, baud_rate, timeout=None)
+
+                line_odom = ser.readline().split(",")
+                odom_data_parsed = [x.rstrip() for x in line_odom]
 
             print(line_odom)
             try:
