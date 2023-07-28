@@ -23,6 +23,6 @@ device_name="${filename%.*}"
 sudo chmod a+rw /dev/$device_name
 echo "/dev/$device_name"
 else
-sudo chmod a+rw $id
+#sudo chmod a+rw $id
 echo $id
 fi

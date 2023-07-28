@@ -18,19 +18,13 @@ cmd_wz = 0.0
 rpm_ka = None
 rpm_ki = None
 
-def cmdVelCallback(vel):
-    global cmd_vx, cmd_wz
-
-    cmd_vx = round(vel.linear.x, 2)
-    cmd_wz = round(vel.angular.z, 2)
-
 if __name__ == '__main__':
     try:
         #Init a new node named 'serial_arduino'
-        rospy.init_node('serial_arduino', anonymous=True)
+        rospy.init_node('serial_arduino', anonymous=False)
 
         #Publish to /odom topic
-        pub = rospy.Publisher("/odom",Odometry, queue_size=100)
+        pub = rospy.Publisher("/odom", Odometry, queue_size=100)
 
         #serial_port = rospy.get_param("~serial_port","/dev/ttyACM0")
         baud_rate = rospy.get_param("~baud_rate", 57600)
@@ -43,27 +37,25 @@ if __name__ == '__main__':
         rate = rospy.Rate(100) # 100 Hz
         while not rospy.is_shutdown():
             #Subscribe to /cmd_vel topic
-            rospy.Subscriber("/cmd_vel", Twist, cmdVelCallback)
-
-            #print(cmd_vx, cmd_wz)
-            #ser.write(b'ROS:')
-            #ser.write(str(cmd_vx).encode())
-            #ser.write(b',')
-            #ser.write(str(cmd_wz).encode())
-            #ser.write(b'\n')
-
             try:
                 line_odom = ser.readline().split(",")
                 odom_data_parsed = [x.rstrip() for x in line_odom]
             except:
-                time.sleep(0.01)
+                #time.sleep(0.1)
                 serial_port = os.popen('sudo bash {}/get_usb.bash {}'.format(os.path.dirname(os.path.abspath(__file__)), device_id)).read().strip()
+                while (serial_port == device_id):
+                    time.sleep(0.5)
+                    serial_port = os.popen('sudo bash {}/get_usb.bash {}'.format(os.path.dirname(os.path.abspath(__file__)), device_id)).read().strip()
+                    print("Searching: ", device_id)
+
+                print("Found the device.")
                 ser = serial.Serial(serial_port, baud_rate, timeout=None)
 
                 line_odom = ser.readline().split(",")
                 odom_data_parsed = [x.rstrip() for x in line_odom]
+                #pass
 
-            print(line_odom)
+            #print(line_odom)
             try:
                 pos_x = float(odom_data_parsed[0])
                 pos_y = float(odom_data_parsed[1])
@@ -72,6 +64,7 @@ if __name__ == '__main__':
                 rpm_ka = float(odom_data_parsed[4])
             except:
                 pos_x, pos_y, theta = 0.0, 0.0, 0.0
+                #pass
 
             #Create odometry object
             odom_msg = Odometry()
@@ -86,7 +79,7 @@ if __name__ == '__main__':
 
             pub.publish(odom_msg)
             #rospy.loginfo('Speed = %s m/s, Angular = %s rad/s', cmd_vx, cmd_wz)
-            #print(pos_x, pos_y, theta, cmd_vx, cmd_wz)
+            print(pos_x, pos_y, theta, cmd_vx, cmd_wz)
             rate.sleep()
 
         rospy.spin()
