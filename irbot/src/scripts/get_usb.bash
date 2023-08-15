@@ -20,7 +20,7 @@ path=$(echo "$line" | awk '{print $NF}')
 if [ -n "$path" ]; then
 filename=$(basename "$path")
 device_name="${filename%.*}"
-sudo chmod a+rw /dev/$device_name
+echo "irbot123.." | sudo -S chmod a+rw /dev/$device_name
 echo "/dev/$device_name"
 else
 #sudo chmod a+rw $id

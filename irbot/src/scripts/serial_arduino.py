@@ -12,6 +12,10 @@ pos_x = 0.0
 pos_y = 0.0
 theta = 0.0
 
+prev_x = 0.0
+prev_y = 0.0
+prev_theta = 0.0
+
 cmd_vx = 0.0
 cmd_wz = 0.0
 
@@ -21,7 +25,7 @@ rpm_ki = None
 if __name__ == '__main__':
     try:
         #Init a new node named 'serial_arduino'
-        rospy.init_node('serial_arduino', anonymous=False)
+        rospy.init_node('irbot_serial_arduino', anonymous=False)
 
         #Publish to /odom topic
         pub = rospy.Publisher("/odom", Odometry, queue_size=100)
@@ -30,7 +34,7 @@ if __name__ == '__main__':
         baud_rate = rospy.get_param("~baud_rate", 57600)
 
         device_id = rospy.get_param("~device_id",'usb-1a86_USB2.0-Serial-if00-port0')
-        serial_port = os.popen('sudo bash {}/get_usb.bash {}'.format(os.path.dirname(os.path.abspath(__file__)), device_id)).read().strip()
+        serial_port = os.popen('echo "irbot123.." | sudo -S bash {}/get_usb.bash {}'.format(os.path.dirname(os.path.abspath(__file__)), device_id)).read().strip()
 
         ser = serial.Serial(serial_port, baud_rate, timeout=None)
 
@@ -42,7 +46,7 @@ if __name__ == '__main__':
                 odom_data_parsed = [x.rstrip() for x in line_odom]
             except:
                 #time.sleep(0.1)
-                serial_port = os.popen('sudo bash {}/get_usb.bash {}'.format(os.path.dirname(os.path.abspath(__file__)), device_id)).read().strip()
+                serial_port = os.popen('echo "irbot123.." | sudo -S bash {}/get_usb.bash {}'.format(os.path.dirname(os.path.abspath(__file__)), device_id)).read().strip()
                 while (serial_port == device_id):
                     time.sleep(0.5)
                     serial_port = os.popen('sudo bash {}/get_usb.bash {}'.format(os.path.dirname(os.path.abspath(__file__)), device_id)).read().strip()
@@ -63,8 +67,12 @@ if __name__ == '__main__':
                 rpm_ki = float(odom_data_parsed[3])
                 rpm_ka = float(odom_data_parsed[4])
             except:
-                pos_x, pos_y, theta = 0.0, 0.0, 0.0
+                pos_x, pos_y, theta = prev_x, prev_y, prev_theta
                 #pass
+
+            prev_x = pos_x
+            prev_y = pos_y
+            prev_theta = theta
 
             #Create odometry object
             odom_msg = Odometry()
