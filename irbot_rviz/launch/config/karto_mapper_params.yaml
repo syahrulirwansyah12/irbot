@@ -2,7 +2,7 @@
 use_scan_matching: true
 use_scan_barycenter: true
 minimum_travel_distance: 0.005 
-minimum_travel_heading: 0.00025             #in radians
+minimum_travel_heading: 0.00025            #in radians
 scan_buffer_size: 300
 scan_buffer_maximum_scan_distance: 15.0
 link_match_minimum_response_fine: 0.2
@@ -13,6 +13,7 @@ loop_match_minimum_chain_size: 10
 loop_match_maximum_variance_coarse: 0.4   # gets squared later
 loop_match_minimum_response_coarse: 0.8
 loop_match_minimum_response_fine: 0.8
+resolution: 0.01
 
 # Correlation Parameters - Correlation Parameters
 correlation_search_space_dimension: 0.3
